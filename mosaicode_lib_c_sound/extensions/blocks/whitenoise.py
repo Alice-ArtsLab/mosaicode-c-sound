@@ -12,9 +12,9 @@ class WhiteNoise(BlockModel):
         BlockModel.__init__(self)
 
         self.language = "c"
-        self.framework = "sound"
+        self.extension = "sound"
         self.help = "White Noise"
-        self.label = "White Noise"
+        self.label = "WhiteNoise"
         self.color = "50:150:250:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                 "name":"output",
@@ -23,7 +23,7 @@ class WhiteNoise(BlockModel):
             ]
         self.group = "Sound Sources"
 
-        self.codes["declaration"] = """noise_t *block_$id$;"""
-        self.codes["execution"] = """block_$id$->process(block_$id$);"""
+        self.codes["declaration"] = """mscsound_noise_t *$label$_$id$;\n"""
+        self.codes["execution"] = """$label$_$id$->process(&$label$_$id$);\n"""
 
-        self.codes["setup"] = """noise = create_noise(FRAMES_PER_BUFFER);"""
+        self.codes["setup"] = """$label$_$id$ = mscsound_create_noise(FRAMES_PER_BUFFER);\n"""
