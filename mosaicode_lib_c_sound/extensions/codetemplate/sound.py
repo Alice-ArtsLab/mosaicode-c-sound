@@ -102,11 +102,10 @@ TARGET	:=	main
 
 all:	$(TARGET)
 
-# Example: record microphone
-main:	main.o
+main:	main.o main.h
 	$(CC) $(CFLAGS) $^ $(LIB_FLAGS) -o $@  $(LIBS)
 
-main.o:	main.c
+main.o:	main.c main.h
 	$(CC) $(CFLAGS) -c $< $(LIB_FLAGS) -o $@  $(LIBS)"""
 
 # -------------------------------------------------------------------------

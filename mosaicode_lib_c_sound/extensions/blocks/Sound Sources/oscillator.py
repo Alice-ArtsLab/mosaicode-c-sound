@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+This module contains the Speaker class.
+"""
+from mosaicode.GUI.fieldtypes import *
+from mosaicode.model.blockmodel import BlockModel
+
+class Oscillator(BlockModel):
+
+    # -------------------------------------------------------------------------
+    def __init__(self):
+        BlockModel.__init__(self)
+
+        self.language = "c"
+        self.extension = "sound"
+        self.help = "Oscillator\nTypes:\n\t0- sine;\n\t1- square;\n\t"
+        self.help += "2- triangle;\n\t3- sawtooth."
+        self.label = "Oscillator"
+        self.color = "50:150:250:150"
+        self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
+                       "name":"input0",
+                       "conn_type":"Input",
+                       "label":"Sound Value"},
+                      {"type":"mosaicode_lib_c_base.extensions.ports.float",
+                       "name":"input1",
+                       "conn_type":"Input",
+                       "label":"Frequency Value"},
+                       {"type":"mosaicode_lib_c_base.extensions.ports.string",
+                        "name":"type",
+                        "conn_type":"Input",
+                        "label":"Oscillator Type"},
+                      {"type":"mosaicode_lib_c_sound.extensions.ports.sound",
+                       "name":"output0",
+                       "conn_type":"Output",
+                       "label":"Sound Value"}]
+
+        self.properties = [{"name": "input1",
+                            "label": "Frequency Value",
+                            "type": MOSAICODE_FLOAT,
+                            "lower": 0,
+                             "upper": 20000,
+                            "step": 1,
+                            "value": 440
+                            },
+                           {"name": "type",
+                            "label": "Type",
+                            "type": MOSAICODE_COMBO,
+                            "values": ["square",
+                                       "sine",
+                                       "sawtooth",
+                                       "triangle"],
+                            "value": "sine"
+                            }]
+        self.group = "Sound Sources"
+        self.codes["function_declaration"] = ""
+        self.codes["declaration"] = "mscsound_osc_t *$label$_$id$;\n"
+        self.codes["declaration"] += "void $port[input1]$(float value);\n";
+        self.codes["declaration"] += "void $port[type]$(char **value);\n";
+
+        self.codes["function"] = \
+"""
+void $port[input1]$(float value){
+    $label$_$id$->input1 = value;
+}
+
+void $port[type]$(char** value){
+    $label$_$id$->type = value;
+}
+"""
+        self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
+        self.codes["setup"] = "$label$_$id$ = mscsound_create_osc(\"$prop[type]$\", FRAMES_PER_BUFFER, 2048);\n"
+        self.codes["setup"] += "$label$_$id$->sampleRate = SAMPLE_RATE;\n"
+        self.codes["setup"] += "$label$_$id$->input0 = NULL;\n"
+        self.codes["setup"] += "$label$_$id$->input1 = $prop[input1]$;\n"
