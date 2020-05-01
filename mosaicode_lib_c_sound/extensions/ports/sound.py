@@ -9,12 +9,6 @@ class SOUND(Port):
         self.language = "c"
         self.color = "#F00"
         self.hint = "SOUND"
-        self.var_name = "$block[label]$_$block[id]$_$port[name]$"
+        self.code = "$input$ = $output$;"
+        self.var_name = "$block[label]$_$block[id]$->$port[name]$"
 
-        self.code = \
-r"""
-$output$ = (sound_callback *) realloc($output$, ($output$_size + 1 ) * sizeof(sound_callback));
-$output$[$output$_size] = $input$;
-$output$_size++;
-"""
-        self.var_name = "$port[name]$$block[id]$"

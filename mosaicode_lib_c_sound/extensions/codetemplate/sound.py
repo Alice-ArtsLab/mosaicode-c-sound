@@ -104,9 +104,9 @@ all:	$(TARGET)
 
 # Example: record microphone
 main:	main.o
-\t$(CC) $(CFLAGS) $^ $(LIB_FLAGS) -o $@  $(LIBS)
+	$(CC) $(CFLAGS) $^ $(LIB_FLAGS) -o $@  $(LIBS)
 
 main.o:	main.c
-\t$(CC) $(CFLAGS) -c $< $(LIB_FLAGS) -o $@  $(LIBS)"""
+	$(CC) $(CFLAGS) -c $< $(LIB_FLAGS) -o $@  $(LIBS)"""
 
 # -------------------------------------------------------------------------
