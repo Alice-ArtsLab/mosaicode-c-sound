@@ -20,7 +20,8 @@ class MosaicodeCSound(CodeTemplate):
         self.command = "make && ./main\n"
         self.description = "mosaicode-c-sound"
 
-        self.code_parts = ["declaration", "execution", "setup", "connections"]
+        self.code_parts = ["declaration", "execution", "setup", "connections",
+                           "function_declaration", "function"]
         self.properties = [{"name": "title",
                             "label": "Title",
                             "value": "Title",
@@ -28,18 +29,27 @@ class MosaicodeCSound(CodeTemplate):
                             }
                            ]
 
-        self.files["main.c"] = r"""
+        self.files["main.h"] = \
+r"""
+$single_code[function_declaration]$
+"""
+
+        self.files["main.c"] = \
+r"""
 #include <mosaic-sound.h>
 #include <portaudio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "main.h"
 
 #define NUM_SECONDS 12
 #define SAMPLE_RATE 44100
 #define FRAMES_PER_BUFFER 256
 
 $code[declaration]$
+
+$code[function]$
 
 static int mscsound_callback(const void *inputBuffer, void *outputBuffer,
                              unsigned long framesPerBuffer,
@@ -82,7 +92,8 @@ int main(int argc, char *argv[]) {
 }
 """
 
-        self.files["Makefile"] = r"""CC	:=	gcc
+        self.files["Makefile"] = \
+r"""CC	:=	gcc
 CFLAGS	:=	-g -Wall
 LIBS	:=	-lportaudio -lm `pkg-config --libs sndfile`
 LIB_FLAGS	:= 	-I/usr/include/mosaic/mosaic-sound -lmosaic-sound
@@ -93,11 +104,9 @@ all:	$(TARGET)
 
 # Example: record microphone
 main:	main.o
-mkdir -p "$(@D)"
-	$(CC) $(CFLAGS) $^ $(LIB_FLAGS) -o $@  $(LIBS)
+\t$(CC) $(CFLAGS) $^ $(LIB_FLAGS) -o $@  $(LIBS)
 
 main.o:	main.c
-	mkdir -p "$(@D)"
-	$(CC) $(CFLAGS) -c $< $(LIB_FLAGS) -o $@  $(LIBS)"""
+\t$(CC) $(CFLAGS) -c $< $(LIB_FLAGS) -o $@  $(LIBS)"""
 
 # -------------------------------------------------------------------------
