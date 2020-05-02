@@ -1,18 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 from mosaicode.model.codetemplate import CodeTemplate
 from mosaicode.GUI.fieldtypes import *
 
 class MosaicodeCSound(CodeTemplate):
-    """
-    This class contains methods related the JavascriptTemplate class.
-    """
-    # ----------------------------------------------------------------------
 
+    # ----------------------------------------------------------------------
     def __init__(self):
         CodeTemplate.__init__(self)
         self.name = "Mosaicode-Sound"

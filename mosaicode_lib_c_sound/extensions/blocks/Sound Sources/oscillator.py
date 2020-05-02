@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-This module contains the Speaker class.
-"""
+
 from mosaicode.GUI.fieldtypes import *
 from mosaicode.model.blockmodel import BlockModel
 
@@ -14,8 +12,7 @@ class Oscillator(BlockModel):
 
         self.language = "c"
         self.extension = "sound"
-        self.help = "Oscillator\nTypes:\n\t0- sine;\n\t1- square;\n\t"
-        self.help += "2- triangle;\n\t3- sawtooth."
+        self.help = "Oscillator"
         self.label = "Oscillator"
         self.color = "50:150:250:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
