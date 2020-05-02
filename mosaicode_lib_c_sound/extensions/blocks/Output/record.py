@@ -44,13 +44,10 @@ class Record(BlockModel):
                             "value": "no"
                             }]
         self.group = "Output"
-        self.codes["function_declaration"] = ""
-        self.codes["declaration"] = "mscsound_record_t *$label$_$id$;\n"
-        self.codes["declaration"] += "void $port[filename]$(char **value);\n";
-        self.codes["declaration"] += "void $port[paused]$(char **value);\n";
-
-        self.codes["function"] = \
+        self.codes["declaration"] = \
 """
+mscsound_record_t *$label$_$id$;
+
 void $port[filename]$(char** value){
     $label$_$id$->filename = value;
 }

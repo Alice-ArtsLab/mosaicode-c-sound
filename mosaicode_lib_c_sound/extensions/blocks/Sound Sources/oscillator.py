@@ -50,13 +50,9 @@ class Oscillator(BlockModel):
                             "value": "sine"
                             }]
         self.group = "Sound Sources"
-        self.codes["function_declaration"] = ""
-        self.codes["declaration"] = "mscsound_osc_t *$label$_$id$;\n"
-        self.codes["declaration"] += "void $port[input1]$(float value);\n";
-        self.codes["declaration"] += "void $port[type]$(char **value);\n";
-
-        self.codes["function"] = \
+        self.codes["declaration"] = \
 """
+mscsound_osc_t *$label$_$id$;
 void $port[input1]$(float value){
     $label$_$id$->input1 = value;
 }
