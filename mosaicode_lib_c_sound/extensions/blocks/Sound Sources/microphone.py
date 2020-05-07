@@ -5,7 +5,7 @@ This module contains the Speaker class.
 """
 from mosaicode.model.blockmodel import BlockModel
 
-class WhiteNoise(BlockModel):
+class Microphone(BlockModel):
 
     # -------------------------------------------------------------------------
     def __init__(self):
@@ -13,17 +13,17 @@ class WhiteNoise(BlockModel):
 
         self.language = "c"
         self.extension = "sound"
-        self.help = "White Noise"
-        self.label = "WhiteNoise"
+        self.help = "Microphone"
+        self.label = "Microphone"
         self.color = "50:150:250:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
-                "name":"output0",
-                "conn_type":"Output",
-                "label":"Sound Value"}
-            ]
+                        "name":"output0",
+                        "conn_type":"Output",
+                        "label":"Sound Value"}
+                    ]
         self.group = "Sound Sources"
         self.codes["function_declaration"] = ""
-        self.codes["declaration"] = "mscsound_whitenoise_t *$label$_$id$;\n"
+        self.codes["declaration"] = "mscsound_mic_t *$label$_$id$;\n"
         self.codes["function"] = ""
-        self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
-        self.codes["setup"] = "$label$_$id$ = mscsound_create_whitenoise(FRAMES_PER_BUFFER);\n"
+        self.codes["execution"] = "$label$_$id$->process(&$label$_$id$, &in);\n"
+        self.codes["setup"] = "$label$_$id$ = mscsound_create_mic(FRAMES_PER_BUFFER);\n"
