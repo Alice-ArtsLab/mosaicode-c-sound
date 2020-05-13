@@ -27,10 +27,6 @@ class ParametricEqualizer(BlockModel):
                         "name":"cutOff",
                         "conn_type":"Input",
                         "label":"CuttOff"},
-                       {"type":"mosaicode_lib_c_base.extensions.ports.float",
-                        "name":"slope",
-                        "conn_type":"Input",
-                        "label":"Slope"},
                        {"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                         "name":"output0",
                         "conn_type":"Output",
@@ -43,15 +39,8 @@ class ParametricEqualizer(BlockModel):
                              "upper": 2147483647,
                              "step": 1,
                              "value": 0},
-                            {"name": "cuttOff",
+                            {"name": "cuttoff",
                              "label": "CuttOff",
-                             "type": MOSAICODE_FLOAT,
-                             "lower": -2147483648,
-                             "upper": 2147483647,
-                             "step": 1,
-                             "value": 0},
-                            {"name": "slope",
-                             "label": "Slope",
                              "type": MOSAICODE_FLOAT,
                              "lower": -2147483648,
                              "upper": 2147483647,
@@ -59,15 +48,25 @@ class ParametricEqualizer(BlockModel):
                              "value": 0}]
 
         self.group = "Audio Filters"
-        self.codes["function_declaration"] = ""
-        self.codes["declaration"] = "mscsound_parametric_eq_t *$label$_$id$;\n"
+        self.codes["declaration"] = \
+"""
+mscsound_parametric_eq_t *$label$_$id$;
 
-        self.codes["function"] = ""
+void $port[gain]$(float value){
+    *($label$_$id$->gain) = value;
+}
+
+void $port[cutOff]$(float value){
+    *($label$_$id$->cutOff) = value;
+}
+"""
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
         self.codes["setup"] = \
 """
 $label$_$id$ = mscsound_create_parametric_eq(FRAMES_PER_BUFFER);
 $label$_$id$->sampleRate = SAMPLE_RATE;
-$label$_$id$->gain = $prop[gain]$;
-$label$_$id$->cutOff = $prop[cuttOff]$;
+$label$_$id$->gain = calloc(1, sizeof(float));
+*($label$_$id$->gain) = $prop[gain]$;
+$label$_$id$->cutOff = calloc(1, sizeof(float));
+*($label$_$id$->cutOff) = $prop[cuttoff]$;
 """

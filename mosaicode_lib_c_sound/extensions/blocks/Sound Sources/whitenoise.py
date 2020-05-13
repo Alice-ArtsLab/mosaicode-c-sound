@@ -22,8 +22,6 @@ class WhiteNoise(BlockModel):
                 "label":"Sound Value"}
             ]
         self.group = "Sound Sources"
-        self.codes["function_declaration"] = ""
         self.codes["declaration"] = "mscsound_whitenoise_t *$label$_$id$;\n"
-        self.codes["function"] = ""
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
         self.codes["setup"] = "$label$_$id$ = mscsound_create_whitenoise(FRAMES_PER_BUFFER);\n"

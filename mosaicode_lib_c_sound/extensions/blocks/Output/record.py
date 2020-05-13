@@ -48,12 +48,16 @@ class Record(BlockModel):
 """
 mscsound_record_t *$label$_$id$;
 
-void $port[filename]$(char** value){
-    $label$_$id$->filename = value;
+void $port[filename]$(char *value){
+    strcpy(*($label$_$id$->filename), \"value\");
 }
 
-void $port[paused]$(char** value){
-    $label$_$id$->paused = value;
+void $port[paused]$(char *value){
+    strcpy(*($label$_$id$->paused), \"value\");
+}
+
+void $port[stop]$(char *value){
+    strcpy(*($label$_$id$->stop), \"value\");
 }
 """
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"

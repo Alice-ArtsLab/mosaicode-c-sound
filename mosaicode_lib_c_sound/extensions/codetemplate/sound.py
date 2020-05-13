@@ -13,7 +13,7 @@ class MosaicodeCSound(CodeTemplate):
         self.language = "c"
         self.command = "make && ./main\n"
         self.description = "mosaicode-c-sound"
-        self.code_parts = ["declaration", "execution", "setup", "function"]
+        self.code_parts = ["declaration", "execution", "setup"]
         self.properties = [{"name": "title",
                             "label": "Title",
                             "value": "Title",

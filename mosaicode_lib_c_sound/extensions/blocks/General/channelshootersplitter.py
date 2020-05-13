@@ -27,10 +27,7 @@ class ChannelShooterSplitter(BlockModel):
         self.properties = []
 
         self.group = "General"
-        self.codes["function_declaration"] = ""
         self.codes["declaration"] = "mscsound_channelshootersplitter_t *$label$_$id$;\n"
-
-        self.codes["function"] = ""
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
         self.codes["setup"] = \
 """

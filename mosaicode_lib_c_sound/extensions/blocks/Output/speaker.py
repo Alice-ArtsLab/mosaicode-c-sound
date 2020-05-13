@@ -23,5 +23,7 @@ class Speaker(BlockModel):
             ]
         self.group = "Output"
         self.codes["declaration"] = "mscsound_speaker_t *$label$_$id$;\n"
-        self.codes["execution"] = "$label$_$id$->process(&$label$_$id$, &out);\n"
-        self.codes["setup"] = "$label$_$id$ = mscsound_create_speaker(FRAMES_PER_BUFFER);\n"
+        self.codes["execution"] = \
+"$label$_$id$->process(&$label$_$id$, &out);\n"
+        self.codes["setup"] = \
+"$label$_$id$ = mscsound_create_speaker(FRAMES_PER_BUFFER);\n"

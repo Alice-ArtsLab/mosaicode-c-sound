@@ -32,7 +32,7 @@ class Playback(BlockModel):
                         "conn_type":"Input",
                         "label":"Read Count"},
                        {"type":"mosaicode_lib_c_base.extensions.ports.integer",
-                        "name":"readCountOutPut",
+                        "name":"readCountOutput",
                         "conn_type":"Output",
                         "label":"Read Count"},
                        {"type":"mosaicode_lib_c_sound.extensions.ports.sound",
@@ -67,23 +67,46 @@ class Playback(BlockModel):
 
         self.group = "Sound Sources"
         self.codes["function_declaration"] = ""
-        self.codes["declaration"] = "mscsound_playback_t *$label$_$id$;\n"
-        self.codes["declaration"] += "void $port[fileFrames]$(int value);\n";
-        self.codes["declaration"] += "void $port[readCountOutPut]$(int value);\n";
-
-        self.codes["function"] = \
+        self.codes["declaration"] = \
 """
-void $port[fileFrames]$(int value){
-    $label$_$id$->fileFrames = value;
+mscsound_playback_t *$label$_$id$;
+
+void $port[filename]$(char *value){
+    strcpy(*($label$_$id$->filename), \"value\");
 }
 
-void $port[readCountOutPut]$(int value){
-    $label$_$id$->readCount = value;
+void $port[loop]$(char *value){
+    strcpy(*($label$_$id$->loop), \"value\");
+}
+
+void $port[readCount]$(int value){
+    *($label$_$id$->readCount) = value;
+}
+
+typedef void (*$label$_$id$_callback_t)(int value);
+$label$_$id$_callback_t* $port[fileFrames]$;
+int $port[fileFrames]$_size = 0;
+
+$label$_$id$_callback_t* $port[readCountOutput]$;
+int $port[readCountOutput]$_size = 0;
+
+void $label$_$id$_callback(void * data){
+    for(int i=0 ; i < $port[fileFrames]$_size ; i++){
+        // Call the stored functions
+        (*($port[fileFrames]$[i]))(*($label$_$id$->fileFrames));
+    }
+
+    for(int i=0 ; i < $port[readCountOutput]$_size ; i++){
+        // Call the stored functions
+        (*($port[readCountOutput]$[i]))(*($label$_$id$->readCount));
+    }
 }
 """
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
-        self.codes["setup"] = "$label$_$id$ = mscsound_create_playback" + \
-            "(\"$prop[filename]$\",FRAMES_PER_BUFFER);\n" + \
-            "strcpy(*($label$_$id$->loop), \"$prop[loop]$\");\n" + \
-            "strcpy(*($label$_$id$->paused), \"$prop[paused]$\");\n" + \
-            "$label$_$id$->readCount = $prop[readCount]$;\n"
+        self.codes["setup"] = \
+"""$label$_$id$ = mscsound_create_playback
+(\"$prop[filename]$\",FRAMES_PER_BUFFER);
+strcpy(*($label$_$id$->loop), \"$prop[loop]$\");
+strcpy(*($label$_$id$->paused), \"$prop[paused]$\");
+*($label$_$id$->readCount) = $prop[readCount]$;
+"""
