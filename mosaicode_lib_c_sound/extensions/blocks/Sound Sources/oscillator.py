@@ -54,15 +54,19 @@ class Oscillator(BlockModel):
 """
 mscsound_osc_t *$label$_$id$;
 void $port[input1]$(float value){
-    $label$_$id$->input1 = value;
+    *($label$_$id$->input1) = value;
 }
 
-void $port[type]$(char** value){
-    $label$_$id$->type = value;
+void $port[type]$(char *value){
+    strcpy(*($label$_$id$->type), \"value\");
 }
 """
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
-        self.codes["setup"] = "$label$_$id$ = mscsound_create_osc(\"$prop[type]$\", FRAMES_PER_BUFFER, 2048);\n"
-        self.codes["setup"] += "$label$_$id$->sampleRate = SAMPLE_RATE;\n"
-        self.codes["setup"] += "$label$_$id$->input0 = NULL;\n"
-        self.codes["setup"] += "$label$_$id$->input1 = $prop[input1]$;\n"
+        self.codes["setup"] = \
+"""
+$label$_$id$ = mscsound_create_osc(\"$prop[type]$\", FRAMES_PER_BUFFER, 2048);
+$label$_$id$->input0 = NULL;
+$label$_$id$->sampleRate = SAMPLE_RATE;
+$label$_$id$->input1 = malloc(sizeof(float));
+*($label$_$id$->input1) = $prop[input1]$;
+"""

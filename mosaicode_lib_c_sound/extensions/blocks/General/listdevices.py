@@ -17,7 +17,7 @@ class Devices(BlockModel):
         self.label = "Devices"
         self.color = "50:150:250:150"
         self.ports = [{"type":"mosaicode_lib_c_base.extensions.ports.integer",
-                       "name":"input0",
+                       "name":"trigger",
                        "conn_type":"Input",
                        "label":"Integer Value"},
                       {"type":"mosaicode_lib_c_base.extensions.ports.string",
@@ -25,13 +25,17 @@ class Devices(BlockModel):
                        "conn_type":"Output",
                        "label":"String Value"}]
         self.group = "General"
-        self.codes["function_declaration"] = ""
-        self.codes["declaration"] = "mscsound_device_list_t *$label$_$id$;\n" +\
-                                    "void $port[input0]$(int value);\n"
+        self.properties = [{"name": "trigger",
+                             "label": "Trigger",
+                             "type": MOSAICODE_COMBO,
+                             "values": ["0","1"],
+                             "value": "1"}]
 
-        self.codes["function"] =  \
+        self.codes["declaration"] = \
 """
-void $port[input0]$(int value){
+mscsound_device_list_t *$label$_$id$;
+
+void $port[trigger]$(int value){
     if (! value) {
 
     } else {
@@ -39,11 +43,24 @@ void $port[input0]$(int value){
         $label$_$id$->show(&$label$_$id$);
     }
 }
+
+typedef void (*$label$_$id$_callback_t)(char* value);
+$label$_$id$_callback_t* $port[output1]$;
+int $port[output1]$_size = 0;
+
+void $label$_$id$_callback(void * data){
+    for(int i=0 ; i < $port[output1]$_size ; i++){
+        // Call the stored functions
+        (*($port[output1]$[i]))(*($label$_$id$->output1));
+    }
+}
 """
-        self.codes["execution"] = ""
+
         self.codes["setup"] = \
 """
 $label$_$id$ = mscsound_create_devices();
-$label$_$id$->process(&$label$_$id$);
-$label$_$id$->show(&$label$_$id$);
+if ($prop[trigger]$) {
+    $label$_$id$->process(&$label$_$id$);
+    $label$_$id$->show(&$label$_$id$);
+}
 """

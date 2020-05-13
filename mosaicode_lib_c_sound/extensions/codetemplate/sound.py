@@ -13,7 +13,7 @@ class MosaicodeCSound(CodeTemplate):
         self.language = "c"
         self.command = "make && ./main\n"
         self.description = "mosaicode-c-sound"
-        self.code_parts = ["declaration", "execution", "setup", "function"]
+        self.code_parts = ["declaration", "execution", "setup"]
         self.properties = [{"name": "title",
                             "label": "Title",
                             "value": "Title",
@@ -28,6 +28,9 @@ r"""
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
+#include <time.h>
+#include <math.h>
 
 #define NUM_SECONDS 12
 #define SAMPLE_RATE 44100
@@ -61,6 +64,10 @@ static void mscsound_finished(void *data) { printf("Stream Completed!\n"); }
 
 /*******************************************************************/
 int main(int argc, char *argv[]) {
+  time_t t;
+   
+  /* Intializes random number generator */
+  srand((unsigned) time(&t));
 
   $code[setup]$
 

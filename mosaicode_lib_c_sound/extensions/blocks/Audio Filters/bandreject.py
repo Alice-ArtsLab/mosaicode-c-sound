@@ -19,10 +19,6 @@ class Bandreject(BlockModel):
                         "name":"input0",
                         "conn_type":"Input",
                         "label":"Sound Value"},
-                       {"type":"mosaicode_lib_c_base.extensions.ports.integer",
-                        "name":"order",
-                        "conn_type":"Input",
-                        "label":"Order"},
                        {"type":"mosaicode_lib_c_base.extensions.ports.float",
                         "name":"slope",
                         "conn_type":"Input",
@@ -48,7 +44,7 @@ class Bandreject(BlockModel):
                              "upper": 2147483647,
                              "step": 1,
                              "value": 0},
-                            {"name": "cuttOff",
+                            {"name": "cuttoff",
                              "label": "CuttOff",
                              "type": MOSAICODE_FLOAT,
                              "lower": -2147483648,
@@ -58,12 +54,28 @@ class Bandreject(BlockModel):
 
         self.group = "Audio Filters"
         self.codes["function_declaration"] = ""
-        self.codes["declaration"] = "mscsound_biquad_t *$label$_$id$;\n"
+        self.codes["declaration"] = \
+"""
+mscsound_biquad_t *$label$_$id$;
+
+void $port[slope]$(float value){
+    *($label$_$id$->slope) = value;
+}
+
+void $port[cutOff]$(float value){
+    *($label$_$id$->cutOff) = value;
+}
+"""
 
         self.codes["function"] = ""
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
-        self.codes["setup"] = "$label$_$id$ = mscsound_create_biquad(" + \
-                               "\"bandreject\", $prop[order]$, FRAMES_PER_BUFFER);\n" + \
-                               "$label$_$id$->sampleRate = SAMPLE_RATE;\n" + \
-                               "$label$_$id$->slope = $prop[slope]$;\n" + \
-                               "$label$_$id$->cutOff = $prop[cuttOff]$;\n"
+        self.codes["setup"] = \
+"""
+$label$_$id$ = mscsound_create_biquad(
+                               \"bandreject\", $prop[order]$, FRAMES_PER_BUFFER);
+$label$_$id$->sampleRate = SAMPLE_RATE;
+$label$_$id$->slope = calloc(1, sizeof(float));
+*($label$_$id$->slope) = $prop[slope]$;
+$label$_$id$->cutOff = calloc(1, sizeof(float));
+*($label$_$id$->cutOff) = $prop[cuttoff]$;
+"""

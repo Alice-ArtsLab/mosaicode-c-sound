@@ -49,6 +49,9 @@ r"""
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <limits.h>
+#include <time.h>
+#include <math.h>
 
 #define NUM_SECONDS 12
 #define SAMPLE_RATE 44100

@@ -22,8 +22,7 @@ class Microphone(BlockModel):
                         "label":"Sound Value"}
                     ]
         self.group = "Sound Sources"
-        self.codes["function_declaration"] = ""
         self.codes["declaration"] = "mscsound_mic_t *$label$_$id$;\n"
-        self.codes["function"] = ""
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$, &in);\n"
-        self.codes["setup"] = "$label$_$id$ = mscsound_create_mic(FRAMES_PER_BUFFER);\n"
+        self.codes["setup"] = \
+"$label$_$id$ = mscsound_create_mic(FRAMES_PER_BUFFER);\n"
