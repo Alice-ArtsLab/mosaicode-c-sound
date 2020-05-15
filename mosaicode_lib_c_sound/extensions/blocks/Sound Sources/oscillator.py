@@ -62,6 +62,7 @@ void $port[type]$(char *value){
 }
 """
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
+
         self.codes["setup"] = \
 """
 $label$_$id$ = mscsound_create_osc(\"$prop[type]$\", FRAMES_PER_BUFFER, 2048);
