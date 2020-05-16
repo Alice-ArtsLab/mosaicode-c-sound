@@ -14,7 +14,7 @@ class Oscillator(BlockModel):
         self.extension = "sound"
         self.help = "Oscillator"
         self.label = "Oscillator"
-        self.color = "50:150:250:150"
+        self.color = "228:242:73:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                        "name":"input0",
                        "conn_type":"Input",

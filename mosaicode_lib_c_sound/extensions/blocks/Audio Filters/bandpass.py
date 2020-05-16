@@ -14,7 +14,7 @@ class Bandpass(BlockModel):
         self.extension = "sound"
         self.help = "Bandpass"
         self.label = "Bandpass"
-        self.color = "50:150:250:150"
+        self.color = "147:147:147:150"
         self.ports = [ {"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                         "name":"input0",
                         "conn_type":"Input",

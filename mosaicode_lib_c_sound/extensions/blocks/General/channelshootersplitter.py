@@ -14,7 +14,7 @@ class ChannelShooterSplitter(BlockModel):
         self.extension = "sound"
         self.help = "Channel Shooter Splitter"
         self.label = "ChannelShooterSplitter"
-        self.color = "50:150:250:150"
+        self.color = "122:205:95:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                        "name":"input0",
                        "conn_type":"Input",

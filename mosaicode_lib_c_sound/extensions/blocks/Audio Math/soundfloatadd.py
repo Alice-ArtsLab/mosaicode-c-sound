@@ -41,12 +41,8 @@ class SoundFloatAdd(BlockModel):
         self.codes["declaration"] = \
 """
 mscsound_audiofloatmath_t *$label$_$id$;
-void $port[input1]$(float value);
-"""
-        self.codes["function"] =  \
-"""
 void $port[input1]$(float value){
-    $label$_$id$->input1 = value;
+    *($label$_$id$->input1) = value;
 }
 """
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
@@ -54,5 +50,6 @@ void $port[input1]$(float value){
 """
 $label$_$id$ = mscsound_create_audiofloatmath(
 FRAMES_PER_BUFFER, mscsound_add_freq_float);
-$label$_$id$->input1 = $prop[input1]$;
+$label$_$id$->input1  = malloc(sizeof(float));
+*($label$_$id$->input1) = $prop[input1]$;
 """

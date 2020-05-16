@@ -14,7 +14,7 @@ class Record(BlockModel):
         self.extension = "sound"
         self.help = "Record"
         self.label = "Record"
-        self.color = "50:150:250:150"
+        self.color = "87:218:153:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                        "name":"input0",
                        "conn_type":"Input",

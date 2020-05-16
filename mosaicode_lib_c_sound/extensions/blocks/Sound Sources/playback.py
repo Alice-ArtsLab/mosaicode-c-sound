@@ -14,7 +14,7 @@ class Playback(BlockModel):
         self.extension = "sound"
         self.help = "Playback"
         self.label = "Playback"
-        self.color = "50:150:250:150"
+        self.color = "228:242:73:150"
         self.ports = [{"type":"mosaicode_lib_c_base.extensions.ports.string",
                        "name":"filename",
                        "conn_type":"Input",
@@ -71,6 +71,13 @@ class Playback(BlockModel):
 """
 mscsound_playback_t *$label$_$id$;
 
+typedef void (*$label$_$id$_callback_t)(int value);
+$label$_$id$_callback_t* $port[fileFrames]$;
+int $port[fileFrames]$_size = 0;
+
+$label$_$id$_callback_t* $port[readCountOutput]$;
+int $port[readCountOutput]$_size = 0;
+
 void $port[filename]$(char *value){
     strcpy(*($label$_$id$->filename), \"value\");
 }
@@ -81,28 +88,22 @@ void $port[loop]$(char *value){
 
 void $port[readCount]$(int value){
     *($label$_$id$->readCount) = value;
-}
-
-typedef void (*$label$_$id$_callback_t)(int value);
-$label$_$id$_callback_t* $port[fileFrames]$;
-int $port[fileFrames]$_size = 0;
-
-$label$_$id$_callback_t* $port[readCountOutput]$;
-int $port[readCountOutput]$_size = 0;
-
-void $label$_$id$_callback(void * data){
-    for(int i=0 ; i < $port[fileFrames]$_size ; i++){
-        // Call the stored functions
-        (*($port[fileFrames]$[i]))(*($label$_$id$->fileFrames));
-    }
-
     for(int i=0 ; i < $port[readCountOutput]$_size ; i++){
         // Call the stored functions
         (*($port[readCountOutput]$[i]))(*($label$_$id$->readCount));
     }
 }
 """
-        self.codes["execution"] = "$label$_$id$->process(&$label$_$id$);\n"
+        self.codes["execution"] = \
+"""
+$label$_$id$->process(&$label$_$id$);
+for(int i=0 ; i < $port[fileFrames]$_size ; i++){
+    // Call the stored functions
+    (*($port[fileFrames]$[i]))(*($label$_$id$->fileFrames));
+}
+"""
+
+
         self.codes["setup"] = \
 """$label$_$id$ = mscsound_create_playback
 (\"$prop[filename]$\",FRAMES_PER_BUFFER);

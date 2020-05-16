@@ -15,7 +15,7 @@ class Devices(BlockModel):
         self.extension = "sound"
         self.help = "Devices"
         self.label = "Devices"
-        self.color = "50:150:250:150"
+        self.color = "122:205:95:150"
         self.ports = [{"type":"mosaicode_lib_c_base.extensions.ports.integer",
                        "name":"trigger",
                        "conn_type":"Input",
@@ -35,23 +35,16 @@ class Devices(BlockModel):
 """
 mscsound_device_list_t *$label$_$id$;
 
-void $port[trigger]$(int value){
-    if (! value) {
-
-    } else {
-        $label$_$id$->process(&$label$_$id$);
-        $label$_$id$->show(&$label$_$id$);
-    }
-}
-
 typedef void (*$label$_$id$_callback_t)(char* value);
 $label$_$id$_callback_t* $port[output1]$;
 int $port[output1]$_size = 0;
 
-void $label$_$id$_callback(void * data){
+void $port[trigger]$(int value){
+    $label$_$id$->process(&$label$_$id$);
+    $label$_$id$->show(&$label$_$id$);
     for(int i=0 ; i < $port[output1]$_size ; i++){
         // Call the stored functions
-        (*($port[output1]$[i]))(*($label$_$id$->output1));
+        (*($port[output1]$[i]))(*(*($label$_$id$->output1)));
     }
 }
 """

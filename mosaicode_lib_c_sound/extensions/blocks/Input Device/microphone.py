@@ -15,13 +15,13 @@ class Microphone(BlockModel):
         self.extension = "sound"
         self.help = "Microphone"
         self.label = "Microphone"
-        self.color = "50:150:250:150"
+        self.color = "205:178:95:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                         "name":"output0",
                         "conn_type":"Output",
                         "label":"Sound Value"}
                     ]
-        self.group = "Sound Sources"
+        self.group = "Input Device"
         self.codes["declaration"] = "mscsound_mic_t *$label$_$id$;\n"
         self.codes["execution"] = "$label$_$id$->process(&$label$_$id$, &in);\n"
         self.codes["setup"] = \

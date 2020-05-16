@@ -14,7 +14,7 @@ class ParametricEqualizer(BlockModel):
         self.extension = "sound"
         self.help = "Parametric Equalizer"
         self.label = "ParametricEqualizer"
-        self.color = "50:150:250:150"
+        self.color = "147:147:147:150"
         self.ports = [ {"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                         "name":"input0",
                         "conn_type":"Input",

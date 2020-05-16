@@ -15,7 +15,7 @@ class WhiteNoise(BlockModel):
         self.extension = "sound"
         self.help = "White Noise"
         self.label = "WhiteNoise"
-        self.color = "50:150:250:150"
+        self.color = "228:242:73:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                 "name":"output0",
                 "conn_type":"Output",
