@@ -45,6 +45,8 @@ class MosaicodeCSoundGtk(CodeTemplate):
 r"""
 #include <mosaic-sound.h>
 #include <portaudio.h>
+#include <alsa/asoundlib.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

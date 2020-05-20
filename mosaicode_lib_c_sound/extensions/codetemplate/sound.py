@@ -25,6 +25,8 @@ class MosaicodeCSound(CodeTemplate):
 r"""
 #include <mosaic-sound.h>
 #include <portaudio.h>
+#include <alsa/asoundlib.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -65,7 +67,7 @@ static void mscsound_finished(void *data) { printf("Stream Completed!\n"); }
 /*******************************************************************/
 int main(int argc, char *argv[]) {
   time_t t;
-   
+
   /* Intializes random number generator */
   srand((unsigned) time(&t));
 
