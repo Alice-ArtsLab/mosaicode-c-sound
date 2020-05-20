@@ -14,7 +14,7 @@ class RMS(BlockModel):
         self.extension = "sound"
         self.help = "RMS"
         self.label = "RMS"
-        self.color = "67:160:17:150"
+        self.color = "140:114:114:150"
         self.ports = [{"type":"mosaicode_lib_c_sound.extensions.ports.sound",
                        "name":"input0",
                        "conn_type":"Input",
