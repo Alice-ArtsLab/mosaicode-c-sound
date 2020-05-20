@@ -79,6 +79,7 @@ static int mscsound_callback(const void *inputBuffer, void *outputBuffer,
   (void)statusFlags;
   (void)userData;
   (void)in;
+  (void)out;
 
   $code[execution]$
 
