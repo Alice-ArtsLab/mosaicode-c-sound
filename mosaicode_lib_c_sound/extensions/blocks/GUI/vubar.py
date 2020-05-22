@@ -19,6 +19,16 @@ class VUBar(BlockModel):
                        "name":"input0",
                        "conn_type":"Input",
                        "label":"Float value"}]
+        self.properties = [{"name": "x",
+                            "label": "X",
+                            "type": MOSAICODE_INT,
+                            "value": "0"
+                            },
+                            {"name": "y",
+                            "label": "Y",
+                            "type": MOSAICODE_INT,
+                            "value": "0"
+                            }]
 
         self.group = "GUI"
         self.codes["declaration"] = \
@@ -33,7 +43,7 @@ void $port[input0]$(float value){
 
         self.codes["setup"] = \
 """
-$label$_$id$ = mscsound_create_vubar();
-$label$_$id$->input0 = calloc(1, sizeof(float));
-gtk_container_add(GTK_CONTAINER(vbox), (GtkWidget *)($label$_$id$->widget));
+    $label$_$id$ = mscsound_create_vubar();
+    $label$_$id$->input0 = calloc(1, sizeof(float));
+    gtk_fixed_put(GTK_FIXED(fixed_layout), $label$_$id$->widget, $prop[x]$, $prop[y]$);
 """

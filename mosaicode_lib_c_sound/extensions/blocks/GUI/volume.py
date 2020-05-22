@@ -19,12 +19,20 @@ class Volume(BlockModel):
                        "name":"output0",
                        "conn_type":"Output",
                        "label":"Float value"}]
-
+        self.properties = [{"name": "x",
+                            "label": "X",
+                            "type": MOSAICODE_INT,
+                            "value": "0"
+                            },
+                            {"name": "y",
+                            "label": "Y",
+                            "type": MOSAICODE_INT,
+                            "value": "0"
+                            }]
         self.group = "GUI"
         self.codes["declaration"] = \
 """
-typedef void (*$label$_$id$_callback_t)(float value);
-$label$_$id$_callback_t* $port[output0]$;
+float_callback * $port[output0]$;
 int $port[output0]$_size = 0;
 mscsound_volume_t  *$label$_$id$;
 """
@@ -38,7 +46,6 @@ for(int i=0 ; i < $port[output0]$_size ; i++){
 
         self.codes["setup"] = \
 """
-$label$_$id$ = mscsound_create_volume(\"Volume: \");
-$port[output0]$ = ($label$_$id$_callback_t *)malloc(sizeof($label$_$id$_callback_t));
-gtk_container_add(GTK_CONTAINER(vbox), (GtkWidget *)$label$_$id$->widget);
+    $label$_$id$ = mscsound_create_volume(\"Volume: \");
+    gtk_fixed_put(GTK_FIXED(fixed_layout), $label$_$id$->widget, $prop[x]$, $prop[y]$);
 """

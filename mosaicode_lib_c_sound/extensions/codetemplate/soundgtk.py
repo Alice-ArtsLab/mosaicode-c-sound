@@ -41,6 +41,13 @@ class MosaicodeCSoundGtk(CodeTemplate):
                             }
                             ]
 
+        self.files["callback.h"] = r"""
+typedef void (*string_callback)(const char * value);
+typedef void (*float_callback)(float value);
+typedef void (*int_callback)(int value);
+typedef void (*char_callback)(char value);
+"""
+
         self.files["main.c"] = \
 r"""
 #include <mosaic-sound.h>
@@ -59,8 +66,8 @@ r"""
 #define SAMPLE_RATE 44100
 #define FRAMES_PER_BUFFER 256
 
-GtkWidget *window;
-GtkWidget *vbox;
+GtkWidget * window;
+GtkWidget * fixed_layout;
 $code[declaration]$
 
 void destroy(void){
@@ -72,18 +79,18 @@ static int mscsound_callback(const void *inputBuffer, void *outputBuffer,
                              const PaStreamCallbackTimeInfo *timeInfo,
                              PaStreamCallbackFlags statusFlags,
                              void *userData) {
-  float *in = (float *)inputBuffer;
-  float *out = (float *)outputBuffer;
+    float *in = (float *)inputBuffer;
+    float *out = (float *)outputBuffer;
 
-  (void)timeInfo; /* Prevent unused variable warnings. */
-  (void)statusFlags;
-  (void)userData;
-  (void)in;
-  (void)out;
+    (void)timeInfo; /* Prevent unused variable warnings. */
+    (void)statusFlags;
+    (void)userData;
+    (void)in;
+    (void)out;
 
-  $code[execution]$
+    $code[execution]$
 
-  return paContinue;
+    return paContinue;
 }
 
 /*
@@ -93,27 +100,27 @@ static void mscsound_finished(void *data) { printf("Stream Completed!\n"); }
 
 /*******************************************************************/
 int main(int argc, char *argv[]) {
-   gtk_init(&argc, &argv);
+    gtk_init(&argc, &argv);
 
-   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-   gtk_window_set_title(GTK_WINDOW(window), "$prop[title]$");
-   g_signal_connect(window, "destroy",G_CALLBACK(destroy), NULL);
-   gtk_window_resize(GTK_WINDOW(window), $prop[width]$, $prop[height]$);
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(window), "$prop[title]$");
+    g_signal_connect(window, "destroy",G_CALLBACK(destroy), NULL);
+    gtk_window_resize(GTK_WINDOW(window), $prop[width]$, $prop[height]$);
 
-   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL,3);
-   gtk_container_add(GTK_CONTAINER(window), vbox);
+    fixed_layout = gtk_fixed_new();
+    gtk_container_add(GTK_CONTAINER(window), fixed_layout);
 
-   $code[setup]$
-   $connections$
+    $code[setup]$
+    $connections$
 
-  void *stream = mscsound_inicialize(SAMPLE_RATE, FRAMES_PER_BUFFER);
+    void *stream = mscsound_inicialize(SAMPLE_RATE, FRAMES_PER_BUFFER);
 
-   gtk_widget_show_all(window);
-   gtk_main();
+    gtk_widget_show_all(window);
+    gtk_main();
 
-  mscsound_terminate(stream);
+    mscsound_terminate(stream);
 
-  return 0;
+    return 0;
 }
 """
 
