@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
         self.files["Makefile"] = \
 r"""CC := gcc
 CFLAGS := -g -Wall
-LIBS := -lportaudio -lm `pkg-config --cflags --libs sndfile --libs gtk+-3.0`
+LIBS := -lportaudio -lm -lpthread `pkg-config --cflags --libs sndfile --libs gtk+-3.0`
 LIB_FLAGS := -I/usr/include/mosaic/mosaic-sound -lmosaic-sound
 TARGET := main
 
