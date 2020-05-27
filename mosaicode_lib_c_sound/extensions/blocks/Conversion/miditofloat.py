@@ -47,18 +47,17 @@ class MIDIToFloat(BlockModel):
         self.group = "Conversion"
         self.codes["declaration"] = \
 """
-typedef void (*$label$_$id$_callback_t)(float value);
-$label$_$id$_callback_t* $port[type]$;
+float_callback *$port[type]$;
 int $port[type]$_size = 0;
-$label$_$id$_callback_t* $port[channel]$;
+float_callback *$port[channel]$;
 int $port[channel]$_size = 0;
-$label$_$id$_callback_t* $port[note]$;
+float_callback *$port[note]$;
 int $port[note]$_size = 0;
-$label$_$id$_callback_t* $port[velocity]$;
+float_callback *$port[velocity]$;
 int $port[velocity]$_size = 0;
-$label$_$id$_callback_t* $port[param]$;
+float_callback *$port[param]$;
 int $port[param]$_size = 0;
-$label$_$id$_callback_t* $port[control_value]$;
+float_callback *$port[control_value]$;
 int $port[control_value]$_size = 0;
 
 void $port[input]$(snd_seq_event_t *ev){

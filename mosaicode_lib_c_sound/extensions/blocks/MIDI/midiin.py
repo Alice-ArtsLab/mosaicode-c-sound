@@ -34,14 +34,13 @@ class MIDIIn(BlockModel):
         self.codes["declaration"] = \
 """
 mscsound_midi_t *$label$_$id$;
-typedef void (*$label$_$id$_callback_t)(snd_seq_event_t *ev);
-$label$_$id$_callback_t* $port[output]$;
+midi_callback *$port[output]$;
 int $port[output]$_size = 0;
 
 void $label$_$id$_callback(snd_seq_event_t *ev) {
     for(int i=0 ; i < $port[output]$_size ; i++){
         // Call the stored functions
-        (*($port[output]$[i]))(ev);
+        (*($port[output]$[i]))((void*)ev);
     }
 }
 """

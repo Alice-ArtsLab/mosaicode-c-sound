@@ -46,6 +46,7 @@ typedef void (*string_callback)(const char * value);
 typedef void (*float_callback)(float value);
 typedef void (*int_callback)(int value);
 typedef void (*char_callback)(char value);
+typedef void (*midi_callback)(void *value);
 """
 
         self.files["main.c"] = \
@@ -61,6 +62,7 @@ r"""
 #include <limits.h>
 #include <time.h>
 #include <math.h>
+#include "callback.h"
 
 #define NUM_SECONDS 12
 #define SAMPLE_RATE 44100

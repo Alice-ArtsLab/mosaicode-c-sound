@@ -96,15 +96,14 @@ class FloatToMIDI(BlockModel):
 """
 snd_seq_event_t $label$_$id$_event;
 
-typedef void (*$label$_$id$_callback_t)(snd_seq_event_t *ev);
-$label$_$id$_callback_t* $port[output]$;
+midi_callback *$port[output]$;
 int $port[output]$_size = 0;
 
 void $port[trigger]$(float value){
     if (value) {
         for(int i=0 ; i < $port[output]$_size ; i++){
             // Call the stored functions
-            (*($port[output]$[i]))(&$label$_$id$_event);
+            (*($port[output]$[i]))((void*)&$label$_$id$_event);
         }
     }
 }
