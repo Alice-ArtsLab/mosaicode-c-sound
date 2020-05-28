@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
     $code[setup]$
     $connections$
 
-    void *stream = mscsound_inicialize(SAMPLE_RATE, FRAMES_PER_BUFFER);
+    void *stream = mscsound_initialize(SAMPLE_RATE, FRAMES_PER_BUFFER);
 
     gtk_widget_show_all(window);
     gtk_main();
